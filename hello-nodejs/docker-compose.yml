@@ -1,0 +1,31 @@
+version: '3.6'
+
+services:
+  nodejs-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hello-nodejs
+    container_name: hello-nodejs
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - APP_NAME=$APP_NAME
+      - NODE_ENV=$NODE_ENV
+      - HOST=$HOST
+      - PORT=$PORT
+      - SERVER_ROOT=$SERVER_ROOT
+      - CORS_ORIGINS=$CORS_ORIGINS
+      - REMOTE_API=$REMOTE_API
+    ports:
+      - "45001:80"
+    volumes:
+      - .:/home/node/app
+      #- node_modules:/home/node/app/node_modules
+    networks:
+      - node-network
+    command: /home/node/app/node_modules/.bin/nodemon index.js
+
+networks:
+  node-network:
+    driver: bridge

@@ -1,0 +1,21 @@
+version: "3.6"
+
+services:              
+  netcore-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: world-netcore   
+    container_name: world-netcore
+    restart: on-failure  
+    environment:
+      - "ASPNETCORE_ENVIRONMENT=Test"       
+    ports:
+      - "45002:81"
+      - "45003:443"
+    networks:
+      - netcore-network
+
+networks:
+  netcore-network:
+    driver: bridge
